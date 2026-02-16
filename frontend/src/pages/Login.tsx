@@ -18,7 +18,7 @@ export default function Login() {
     <div className="max-w-md mx-auto px-4 py-16 sm:py-24">
       <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-8">
         <h1 className="text-2xl font-bold text-[var(--text-primary)]">Log in</h1>
-        <p className="mt-1 text-[var(--text-muted)]">Demo: any email/password will work. Backend coming later.</p>
+        <p className="mt-1 text-[var(--text-muted)]">Demo: any email/password will work. Backend not created yet.</p>
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-[var(--text-primary)]">Email</label>
