@@ -17,7 +17,7 @@ export default function Verifier() {
       <div className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">Verifier</h1>
         <p className="mt-1 text-[var(--text-muted)]">
-          You need to check something about a person’s passport (e.g. age, citizenship, visa) without seeing their full document. They scan your QR and their wallet returns only Yes/No.
+          You need to check something about a person’s passport (e.g. age, citizenship, visa, etc) without seeing their full document. They scan your QR and their wallet returns only Yes/No.
         </p>
       </div>
 
