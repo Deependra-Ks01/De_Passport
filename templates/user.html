@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-xl-10">
+        <div class="hero-card p-4 p-md-5 mb-4">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-5">
+                    <span class="eyebrow">Citizen Portal</span>
+                    <h1 class="display-6 fw-bold mt-2">View your passport and generate a QR code.</h1>
+                    <p class="text-light-emphasis">Enter your Ethereum wallet address to fetch the passport stored by the authority.</p>
+                    <form method="POST" action="{{ url_for('user.dashboard') }}">
+                        <div class="input-group mt-4">
+                            <input type="text" class="form-control" name="user_address" placeholder="0x..." required>
+                            <button class="btn btn-accent" type="submit">Find Passport</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-7">
+                    {% if passport %}
+                        <div class="glass-panel p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h2 class="h4 mb-1">{{ passport.name }}</h2>
+                                    <p class="mb-0 text-light-emphasis">Passport No: {{ passport.passport_no }}</p>
+                                </div>
+                                <span class="badge {% if passport.status == 'valid' %}text-bg-success{% else %}text-bg-danger{% endif %}">
+                                    {{ passport.status }}
+                                </span>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6"><strong>DOB:</strong> {{ passport.dob }}</div>
+                                <div class="col-md-6"><strong>Nationality:</strong> {{ passport.nationality }}</div>
+                                <div class="col-md-6"><strong>Issue Date:</strong> {{ passport.issue_date }}</div>
+                                <div class="col-md-6"><strong>Expiry Date:</strong> {{ passport.expiry_date }}</div>
+                                <div class="col-12"><strong>Wallet:</strong> <span class="text-break">{{ passport.user_address }}</span></div>
+                                <div class="col-12"><strong>Hash:</strong> <span class="text-break small">{{ passport.hash }}</span></div>
+                            </div>
+                            {% if is_expired %}
+                                <div class="alert alert-warning mt-4 mb-0">This passport has expired.</div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="glass-panel p-4 h-100 d-flex align-items-center">
+                            <p class="mb-0 text-light-emphasis">Your passport details will appear here after you search for a valid wallet address.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if qr_path %}
+            <div class="glass-panel p-4 text-center">
+                <h2 class="h4 mb-3">Passport QR Code</h2>
+                <img src="{{ url_for('static', filename=qr_path.replace('static/', '')) }}" alt="Passport QR code" class="img-fluid qr-image">
+                <p class="mt-3 mb-0 text-light-emphasis">The QR contains the wallet address and passport hash as JSON.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

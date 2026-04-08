@@ -1,0 +1,7 @@
+Flask==3.1.0
+pymongo==4.10.1
+web3==7.6.0
+qrcode==8.0
+python-dotenv==1.0.1
+Pillow==11.0.0
+# hashlib is part of Python's standard library, so it is not installed via pip.

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="hero-card p-4 p-md-5 mb-4">
+            <div class="row align-items-center g-4">
+                <div class="col-md-7">
+                    <span class="eyebrow">Blockchain-Based Digital Passport System</span>
+                    <h1 class="display-5 fw-bold mt-3">Issue and verify passports with MongoDB, Ganache, and Web3.py.</h1>
+                    <p class="lead text-light-emphasis mt-3">
+                        Prototype portal for a passport authority, passport holder, and verifier.
+                        Passport records stay in MongoDB while the blockchain stores only the document hash and validity state.
+                    </p>
+                </div>
+                <div class="col-md-5">
+                    <div class="glass-panel p-4">
+                        <h2 class="h4 mb-3">Admin Login</h2>
+                        <form method="POST" action="{{ url_for('admin.login') }}">
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username" placeholder="admin" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" name="password" placeholder="admin123" required>
+                            </div>
+                            <button class="btn btn-accent w-100" type="submit">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="info-card h-100">
+                    <h3 class="h5">Authority</h3>
+                    <p class="mb-0">Issue and revoke passport records, then anchor each document hash on Ethereum.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info-card h-100">
+                    <h3 class="h5">Citizen</h3>
+                    <p class="mb-0">Look up a passport using the wallet address and generate a QR code for sharing.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info-card h-100">
+                    <h3 class="h5">Verifier</h3>
+                    <p class="mb-0">Paste a QR payload to validate the passport against MongoDB and the blockchain.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

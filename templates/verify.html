@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-xl-10">
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="glass-panel p-4 h-100">
+                    <span class="eyebrow">Verifier Portal</span>
+                    <h1 class="h2 mt-2">Verify a passport from QR data</h1>
+                    <p class="text-light-emphasis">Paste the QR JSON payload here. For this prototype, the QR encodes <code>user_address</code> and <code>hash</code>.</p>
+                    <form method="POST" action="{{ url_for('verifier.verify') }}">
+                        <div class="mb-3">
+                            <label class="form-label">QR Payload</label>
+                            <textarea class="form-control" name="qr_payload" rows="8" placeholder='{"user_address":"0x...","hash":"..."}' required></textarea>
+                        </div>
+                        <button class="btn btn-accent w-100" type="submit">Verify Passport</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="glass-panel p-4 h-100">
+                    <h2 class="h4 mb-3">Verification Result</h2>
+                    {% if result %}
+                        <div class="alert {% if result.status == 'valid' %}alert-success{% else %}alert-danger{% endif %}">
+                            <strong>{{ result.message }}</strong>
+                        </div>
+                        {% if passport %}
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6"><strong>Name:</strong> {{ passport.name }}</div>
+                                <div class="col-md-6"><strong>Passport No:</strong> {{ passport.passport_no }}</div>
+                                <div class="col-md-6"><strong>Nationality:</strong> {{ passport.nationality }}</div>
+                                <div class="col-md-6"><strong>Status:</strong> {{ passport.status }}</div>
+                                <div class="col-md-6"><strong>Expiry:</strong> {{ passport.expiry_date }}</div>
+                                <div class="col-md-6"><strong>Wallet:</strong> <span class="text-break">{{ passport.user_address }}</span></div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-borderless align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Check</th>
+                                            <th>Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for label, passed in result.checks.items() %}
+                                            <tr>
+                                                <td>{{ label.replace('_', ' ').title() }}</td>
+                                                <td>
+                                                    {% if passed %}
+                                                        <span class="badge text-bg-success">Pass</span>
+                                                    {% else %}
+                                                        <span class="badge text-bg-danger">Fail</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <p class="mb-0 text-light-emphasis">Run a verification and the blockchain, MongoDB, hash, and expiry checks will appear here.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

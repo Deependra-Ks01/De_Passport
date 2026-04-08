@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <span class="eyebrow">Passport Authority Dashboard</span>
+        <h1 class="h2 mt-2">Issue or revoke digital passports</h1>
+    </div>
+    <a href="{{ url_for('admin.logout') }}" class="btn btn-outline-light">Logout</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-5">
+        <div class="glass-panel p-4 h-100">
+            <h2 class="h4 mb-3">Issue Passport</h2>
+            <form method="POST" action="{{ url_for('admin.dashboard') }}">
+                <div class="mb-3">
+                    <label class="form-label">Citizen Ethereum Address</label>
+                    <input type="text" class="form-control" name="user_address" placeholder="0x..." required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" name="dob" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Passport Number</label>
+                        <input type="text" class="form-control" name="passport_no" required>
+                    </div>
+                </div>
+                <div class="mb-3 mt-3">
+                    <label class="form-label">Nationality</label>
+                    <input type="text" class="form-control" name="nationality" required>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Issue Date</label>
+                        <input type="date" class="form-control" name="issue_date" value="{{ today }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Expiry Date</label>
+                        <input type="date" class="form-control" name="expiry_date" required>
+                    </div>
+                </div>
+                <button class="btn btn-accent w-100 mt-4" type="submit">Issue Passport</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="glass-panel p-4">
+            <h2 class="h4 mb-3">Issued Passports</h2>
+            {% if passports %}
+                <div class="table-responsive">
+                    <table class="table table-borderless align-middle">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Passport No</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for passport in passports %}
+                                <tr>
+                                    <td>{{ passport.name }}</td>
+                                    <td>{{ passport.passport_no }}</td>
+                                    <td class="small text-break">{{ passport.user_address }}</td>
+                                    <td>
+                                        <span class="badge {% if passport.status == 'valid' %}text-bg-success{% else %}text-bg-danger{% endif %}">
+                                            {{ passport.status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if passport.status == 'valid' %}
+                                            <form method="POST" action="{{ url_for('admin.revoke', user_address=passport.user_address) }}">
+                                                <button class="btn btn-sm btn-outline-danger" type="submit">Revoke</button>
+                                            </form>
+                                        {% else %}
+                                            <span class="text-muted small">Revoked</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="mb-0 text-light-emphasis">No passports have been issued yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
