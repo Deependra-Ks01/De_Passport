@@ -16,7 +16,7 @@ class BlockchainError(Exception):
 BASE_DIR = Path(__file__).resolve().parent.parent
 ABI_PATH = BASE_DIR / "contract" / "abi.json"
 RPC_URL = os.getenv("GANACHE_RPC_URL", "http://127.0.0.1:7545")
-CHAIN_ID = int(os.getenv("CHAIN_ID", "1337"))
+CHAIN_ID = os.getenv("CHAIN_ID")
 DEFAULT_GAS = int(os.getenv("GAS_LIMIT", "3000000"))
 DEFAULT_GAS_PRICE_GWEI = os.getenv("GAS_PRICE_GWEI", "20")
 
@@ -68,12 +68,13 @@ def get_default_account():
 
 def _build_transaction():
     sender = get_default_account()
+    chain_id = int(CHAIN_ID) if CHAIN_ID else _web3.eth.chain_id
     return {
         "from": sender,
         "nonce": _web3.eth.get_transaction_count(sender),
         "gas": DEFAULT_GAS,
         "gasPrice": _web3.to_wei(DEFAULT_GAS_PRICE_GWEI, "gwei"),
-        "chainId": CHAIN_ID,
+        "chainId": chain_id,
     }
 
 
