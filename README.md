@@ -5,6 +5,7 @@ Prototype digital passport system built with Flask, MongoDB, Ganache, Solidity, 
 - Admin (passport authority) issues and revokes passports
 - User (citizen) views passport details and generates a QR code
 - Verifier (airport or hotel) verifies a passport using MongoDB and the blockchain
+- This project done for the course Blockchain 
 
 ## Features
 
